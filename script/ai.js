@@ -7,7 +7,7 @@ module.exports.config = {
 	  aliases: ["Ai"],
 		credits: "Jonell Magallanes", //API BY MARK
 		description: "EDUCATIONAL",
-		hasPrefix: true,
+		hasPrefix: false,
 		usage: "[question]",
 		cooldown: 10
 };
@@ -24,7 +24,7 @@ module.exports.run = async function ({ api, event, args }) {
 				const response = await axios.get(apiUrl);
 				const answer = response.data.answer;
 
-				api.sendMessage(`𝗔𝗜 🚀${answer}`, event.threadID, event.messageID);
+				api.sendMessage(`${answer}`, event.threadID, event.messageID);
 		} catch (error) {
 				console.error(error);
 				api.sendMessage("An error occurred while processing your request.", event.threadID);
