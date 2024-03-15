@@ -363,7 +363,7 @@ setInterval(() => {
 	}
 }, 1000);
 
-function compareTimes(currentHour, currentMinute, currentSecond, targetTime) {
+async function compareTimes(currentHour, currentMinute, currentSecond, targetTime) {
 	return (
 		currentHour === targetTime.hour &&
 		currentMinute === targetTime.minute &&

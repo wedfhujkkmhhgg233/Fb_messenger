@@ -1,33 +1,32 @@
-/* 
-If you encounter any errors, please give me feedback. Contact me on facebook https://facebook.com/joshg101
-*/
-
-const { get } = require('axios');
-let url = "https://ai-tools.replit.app";
+const axios = require('axios');
 
 module.exports.config = {
 		name: "ai",
 		version: "1.0.0",
 		role: 0,
-		hasPrefix: false,
-		credits: "Deku",
-		description: "Talk to AI with continuous conversation.",
-		aliases:  ['Ai'],
-		usages: "[prompt]",
-		cooldown: 0,
+	  aliases: ["Ai"],
+		credits: "Jonell Magallanes", //API BY MARK
+		description: "EDUCATIONAL",
+		hasPrefix: true,
+		usage: "[question]",
+		cooldown: 10
 };
 
-module.exports.run = async function({ api, event, args }) {
-		function sendMessage(msg) {
-				api.sendMessage(msg, event.threadID, event.messageID);
-		}
-		if (!args[0]) return sendMessage('Please provide a question first.');
-		const prompt = args.join(" ");
+module.exports.run = async function ({ api, event, args }) {
+		const question = args.join(' ');
+		const apiUrl = `https://markdevsapi.onrender.com/gpt4?ask=${encodeURIComponent(question)}`;
+
+		if (!question) return api.sendMessage("Please provide a question first.", event.threadID, event.messageID);
+
 		try {
-				const response = await get(`${url}/gpt?prompt=${encodeURIComponent(prompt)}&uid=${event.senderID}`);
-				const data = response.data;
-				return sendMessage(data.gpt4);
+				api.sendMessage("Please bear with me while I ponder your request...", event.threadID, event.messageID);
+
+				const response = await axios.get(apiUrl);
+				const answer = response.data.answer;
+
+				api.sendMessage(`𝗔𝗜 🚀${answer}`, event.threadID, event.messageID);
 		} catch (error) {
-				return sendMessage(error.message);
+				console.error(error);
+				api.sendMessage("An error occurred while processing your request.", event.threadID);
 		}
-}
+};
