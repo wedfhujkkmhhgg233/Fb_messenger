@@ -7,7 +7,7 @@ module.exports.config = {
 		description: "AI",
 		hasPrefix: false,
 		usages: "{pn} [prompt]",
-		aliases: ["gpt4"],
+		aliases: ["gpt4","ai","Ai"],
 		cooldown: 0,
 };
 
