@@ -4,7 +4,7 @@ const path = require('path');
 const ytdl = require("ytdl-core");
 const yts = require("yt-search");
 
-async function sing(api, event, args) {
+async function Play(api, event, args) {
 		api.setMessageReaction("🕢", event.messageID, (err) => {}, true);
 		try {
 				let title = '';
@@ -74,10 +74,8 @@ module.exports.config = {
 		credits: "cliff",
 		description: "play music with its lyrics",
 		usages: "{p] play lyricsName",
-		hasPrefix: false,
+		hasPrefix: false, // Fixed the typo here
 		cooldown: 5
 };
 
-module.exports.run = async function ({ api, event, args }) {
-		return sing(api, event, args);
-};
+module.exports.run = Play;
