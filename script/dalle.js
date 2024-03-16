@@ -5,7 +5,7 @@ module.exports.config = {
 		name: "dalle",
 		version: "1.0",
 		credits: "dipto",
-		role: 0,
+		role: 2,
 		aliases: ["dal"],
 		hasPrefix: false,
 		description: "Generate images by Dalle-3 AI",
