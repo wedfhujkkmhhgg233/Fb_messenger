@@ -30,6 +30,7 @@
     "moment-timezone": "^0.5.45",
     "mqtt": "^3.0.0",
     "node-cron": "^3.0.3",
+    "node-fetch": "^3.3.2",
     "npmlog": "^1.2.0",
     "os": "^0.1.2",
     "pastebin-api": "^7.0.0",
