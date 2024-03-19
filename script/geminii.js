@@ -1,10 +1,12 @@
 module.exports.config = {
 	name: "gemini",
 	role: 0,
-	credits: "Deku",
+	credits: "Deku", //https://facebook.com/joshg101
 	description: "Talk to Gemini (conversational)",
 	hasPrefix: false,
-	aliases: []
+	version: "5.6.7",
+	aliases: ["bard"],
+	usage: "gemini [prompt]"
 };
 
 module.exports.run = async function ({ api, event, args }) {
@@ -19,16 +21,16 @@ module.exports.run = async function ({ api, event, args }) {
 		if (event.type == "message_reply") {
 			if (event.messageReply.attachments[0]?.type == "photo") {
 				url = encodeURIComponent(event.messageReply.attachments[0].url);
-				const res = (await axios.get(geminiApi + "/gemini?prompt=" + prompt + "&url=" + url + "&uid=" + uid)).data;
+				const res = (await axios.get(`${geminiApi}/gemini?prompt=${prompt}&url=${url}&uid=${uid}`)).data;
 				return api.sendMessage(res.gemini, event.threadID);
 			} else {
 				return api.sendMessage('Please reply to an image.', event.threadID);
 			}
 		}
-		const response = (await axios.get(geminiApi + "/gemini?prompt=" + prompt + "&uid=" + uid)).data;
+		const response = (await axios.get(`${geminiApi}/gemini?prompt=${prompt}&uid=${uid}`)).data;
 		return api.sendMessage(response.gemini, event.threadID);
 	} catch (error) {
 		console.error(error);
-		return api.sendMessage(error.message, event.threadID);
+		return api.sendMessage('❌ | An error occurred. You can try typing your query again or resending it. There might be an issue with the server that\'s causing the problem, and it might resolve on retrying.', event.threadID);
 	}
 };
