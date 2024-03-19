@@ -25,7 +25,6 @@ module.exports.getStartTimestamp = async () => {
 				const startTimeStr = await fs.readFile('uptime_start_time.txt', 'utf8');
 				return parseInt(startTimeStr);
 		} catch (error) {
-				// If file doesn't exist or there's an error reading it, return current timestamp
 				return Date.now();
 		}
 };
@@ -61,6 +60,6 @@ module.exports.run = async ({ api, event }) => {
 		const uptimeMessage = module.exports.getUptime(uptimeSeconds);
 		const returnResult = `${uptimeMessage}\n | ❖ Cpu usage: ${usage.cpu.toFixed(1)}%\n | ❖ RAM usage: ${module.exports.byte2mb(usage.memory)}\n | ❖ Cores: ${os.cpus().length}\n | ❖ Ping: ${Date.now() - timeStart}ms\n | ❖ Operating System Platform: ${osInfo.platform}\n | ❖ System CPU Architecture: ${osInfo.architecture}\n┗━━━━━━━━━━━━━━━━━━━━𒁍`;
 
-		await module.exports.saveStartTimestamp(startTime); // Save the start time again to ensure it's updated
+		await module.exports.saveStartTimestamp(startTime); 
 		return api.sendMessage(returnResult, event.threadID, event.messageID);
 };

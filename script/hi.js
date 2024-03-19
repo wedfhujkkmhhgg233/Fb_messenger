@@ -1,4 +1,4 @@
-let hiFlag = true; // Initialize the hi flag
+let hiFlag = false;
 
 const config = {
 		name: "hi",
