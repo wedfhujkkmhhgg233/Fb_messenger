@@ -20,7 +20,7 @@ module.exports.handleEvent = async function({ api, event }) {
 	const { threadID, messageID, senderID } = event;
 
 	const loadWords = () => {
-		const wordFile = path.join(__dirname, `./cache/${threadID}.json`);
+		const wordFile = path.join(__dirname, `./cache2/${threadID}.json`);
 		if (fs.existsSync(wordFile)) {
 			const words = fs.readFileSync(wordFile, "utf8");
 			bannedWords[threadID] = JSON.parse(words);
