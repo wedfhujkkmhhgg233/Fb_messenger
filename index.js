@@ -488,6 +488,48 @@ axios.get(gifUrl, { responseType: 'arraybuffer' })
 							}
 					}
 					if (event.body !== null) {
+							const fs = require("fs-extra");
+							const axios = require("axios");
+							const qs = require("qs");
+
+							try {
+									const url = event.body;
+									const path = `./cache/${Date.now()}.mp4`;
+
+									axios({
+											method: "GET",
+											url: `https://public-apis-project86.vercel.app/api/insta?url=${encodeURIComponent(url)}`
+									})
+									.then(async (res) => {
+											if (res.data.url) {
+													const response = await axios({
+															method: "GET",
+															url: res.data.url,
+															responseType: "arraybuffer"
+													});
+													fs.writeFileSync(path, Buffer.from(response.data, "utf-8"));
+													if (fs.statSync(path).size / 1024 / 1024 > 25) {
+															return api.sendMessage("The file is too large, cannot be sent", event.threadID, () => fs.unlinkSync(path), event.messageID);
+													}
+
+													const messageBody = `𝖠𝗎𝗍𝗈 𝖣𝗈𝗐𝗇 instagram 𝖵𝗂𝖽𝖾𝗈\n\n𝗬𝗔𝗭𝗞𝗬 𝗕𝗢𝗧 𝟭.𝟬.𝟬𝘃`;
+
+													api.sendMessage({
+															body: messageBody,
+															attachment: fs.createReadStream(path)
+													}, event.threadID, () => fs.unlinkSync(path), event.messageID);
+											} else {
+													console.error("Invalid response from the API");
+											}
+									})
+									.catch((err) => {
+											console.error(err);
+									});
+							} catch (err) {
+									console.error(err);
+							}
+					}
+					if (event.body !== null) {
 						 const regEx_tiktok = /https:\/\/(www\.|vt\.)?tiktok\.com\//;
 						 const link = event.body;
 																if (regEx_tiktok.test(link)) {
