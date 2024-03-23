@@ -14,7 +14,7 @@ const axios = require("axios");
 const fs = require("fs");
 const path = require("path");
 
-module.exports().run = async function({ api, event, args }) {
+module.exports.run = async function({ api, event, args }) {
 	try {
 		const searchQuery = args.join(" ");
 		if (!searchQuery) {
