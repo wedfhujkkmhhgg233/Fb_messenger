@@ -172,6 +172,7 @@ to {
 	width: 100%;
 	height: 70%;
 	margin-bottom: 20px;
+	display: flex;
 }
 
 #video {

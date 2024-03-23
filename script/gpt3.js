@@ -26,8 +26,8 @@ module.exports.run = async function ({ api, event, args }) {
 				];
 				const options = {
 						provider: g4f.providers.GPT,
-						model: "gpt-3.5-turbo",
-						debug: true,
+						model: "gpt-4-turbo",
+						debug: false,
 						proxy: ""
 				};
 				const response = await g4f.chatCompletion(messages, options);
