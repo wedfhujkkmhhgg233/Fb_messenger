@@ -9,7 +9,6 @@ module.exports.config = {
 		hasPrefix: false,
 };
 
-
 module.exports.run = async function({ api, event, args }) {
 		const axios = require("axios");
 		let { messageID, threadID } = event;
@@ -30,7 +29,7 @@ module.exports.run = async function({ api, event, args }) {
 		try {
 				const response = await axios.get(`https://sim-api-0xx.onrender.com/teach?ask=${question}&ans=${answer}`);
 				const responseData = response.data;
-				if (responseData === "success") {
+				if (responseData.ask === question && responseData.ans === answer) {
 						api.sendMessage(`Successfully taught. Question: ${input[0].trim()} | Answer: ${input[1].trim()}`, threadID, messageID);
 				} else {
 						api.sendMessage("An error occurred while teaching.", threadID, messageID);
