@@ -2,8 +2,8 @@ module.exports.config = {
 	name: "sim",
 	version: "1.0.0",
 	role: 0,
-	aliases: ["sim"],
-	credits: "KENLIEPLAYS",
+	aliases: ["Sim"],
+	credits: "bundas",
 	description: "Talk to sim",
 	cooldown: 0,
 	hasPrefix: false

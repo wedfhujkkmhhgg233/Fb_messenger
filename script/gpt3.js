@@ -6,7 +6,8 @@ module.exports.config = {
 		hasPrefix: false,
 		description: "This module provides AI-powered responses using GPT-3.",
 		usage: "<question>",
-		cooldowns: 5
+		cooldowns: 5,
+	  aliases: ["Gpt3"]
 };
 
 module.exports.run = async function ({ api, event, args }) {

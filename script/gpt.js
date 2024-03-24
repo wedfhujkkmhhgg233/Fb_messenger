@@ -5,7 +5,7 @@ module.exports.config = {
   credits: "cliff",
   version: '1.0.0',
   role: 0,
-  aliases: ["gpt"],
+  aliases: ["Gpt"],
   cooldown: 0,
   hasPrefix: false,
   usage: "",
