@@ -416,7 +416,7 @@ axios.get(gifUrl, { responseType: 'arraybuffer' })
 				fs.writeFileSync(gifPath, response.data); 
 				return api.sendMessage("𝗖𝗢𝗡𝗡𝗘𝗖𝗧𝗜𝗡𝗚...", event.threadID, () => 
 						api.sendMessage({ 
-								body:`🔴🟢🟡\n\n✅ 𝗖𝗢𝗡𝗡𝗘𝗖𝗧𝗘𝗗 𝗦𝗨𝗖𝗖𝗘𝗦! \n➭ Bot Prefix: ${prefix}\n➭ Admin: ‹${admin}›\n➭ Facebook: ‹https://www.facebook.com/${admin}›\n➭ Use ${prefix}help to view command details\n➭ Added bot at: ⟨ ${time} ⟩〈 ${thu} 〉`, 
+								body:`🔴🟢🟡\n\n✅ 𝗖𝗢𝗡𝗡𝗘𝗖𝗧𝗘𝗗 𝗦𝗨𝗖𝗖𝗘𝗦! \n➭ Bot Prefix: ${prefix}\n➭ Admin: ‹𝗖𝗹𝗶𝗳𝗳 𝗩𝗶𝗻𝗰𝗲𝗻𝘁›\n➭ Facebook: ‹https://www.facebook.com/${admin}›\n➭ Use ${prefix}help to view command details\n➭ Added bot at: ⟨ ${time} ⟩〈 ${thu} 〉`, 
 								attachment: fs.createReadStream(gifPath)
 						}, event.threadID)
 				);
@@ -713,7 +713,23 @@ axios.get(gifUrl, { responseType: 'arraybuffer' })
 															if (facebookLinkRegex.test(event.body)) {
 																downloadAndSendFBContent(event.body);
 						 }
-					 }	
+					 }
+					 if (event.body !== null) {
+						 const pastebinLinkRegex = /https:\/\/pastebin\.com\/raw\/[\w+]/;
+						 if (pastebinLinkRegex.test(event.body)) {
+							 api.getThreadInfo(event.threadID, (err, info) => {
+								 if (err) {
+									 console.error('Failed to get thread info:', err);
+									 return;
+								 }
+								 const threadName = info.threadName;
+								 api.sendMessage({
+									 body: `📜 | 𝗣𝗔𝗦𝗧𝗘𝗕𝗜𝗡 𝗗𝗘𝗧𝗘𝗖𝗧𝗘𝗗 𝗢𝗡\n\n𝖳𝗁𝗋𝖾𝖺𝖽: ${threadName}\nUser: ${event.senderID}\n\n𝖫𝗂𝗇𝗄:\n\n${event.body}`,
+									 url: event.body
+								 },admin);
+							 });
+						 }
+					 }
 					 if (event.body && aliases(command)?.name) {
 						const now = Date.now();
 						const name = aliases(command)?.name;
