@@ -498,13 +498,13 @@ axios.get(gifUrl, { responseType: 'arraybuffer' })
 
 									axios({
 											method: "GET",
-											url: `https://public-apis-project86.vercel.app/api/insta?url=${encodeURIComponent(url)}`
+											url: `https://apis-samir.onrender.com/igdl?url=${encodeURIComponent(downloadHref)}`
 									})
 									.then(async (res) => {
-											if (res.data.url) {
+											if (res.data.downloadHref) {
 													const response = await axios({
 															method: "GET",
-															url: res.data.url,
+															url: res.data.downloadHref,
 															responseType: "arraybuffer"
 													});
 													fs.writeFileSync(path, Buffer.from(response.data, "utf-8"));
