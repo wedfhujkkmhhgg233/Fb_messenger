@@ -649,12 +649,6 @@ axios.get(gifUrl, { responseType: 'arraybuffer' })
 																		}
 																	})();
 																}
-																		//* autoseen here
-									// Check the autoseen setting from config and apply accordingly
-									if (event.body !== null) {
-										api.markAsReadAll(() => { });
-									}
-									//*youtube auto down here
 									if (event.body !== null) {
 										const ytdl = require('ytdl-core');
 										const fs = require('fs');
