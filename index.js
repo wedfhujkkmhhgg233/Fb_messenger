@@ -487,154 +487,49 @@ axios.get(gifUrl, { responseType: 'arraybuffer' })
 									});
 							}
 					}
-					//** PINTEREST DOWNLOADER **//
-					if (event.body !== null) {
-						const url = event.body;
-						const path = `./cache2/${Date.now()}.mp4`;
-
-						try {
-							const res = await axios.get(`https://pindl-pinterest.vercel.app/kshitiz?url=${encodeURIComponent(url)}`);
-							const videoUrl = res.data.url;
-
-							const response = await axios({
-								method: "GET",
-								url: videoUrl,
-								responseType: "stream"
-							});
-
-							if (response.headers['content-length'] > 87031808) {
-								return api.sendMessage("The file is too large, cannot be sent", event.threadID, () => fs.unlinkSync(path), event.messageID);
-							}
-
-							response.data.pipe(fs.createWriteStream(path));
-							response.data.on('end', async () => {
-								const shortUrl = await shortenURL(videoUrl);
-								const messageBody = `𝖠𝗎𝗍𝗈 𝖣𝗈𝗐𝗇 Pinterest \n\n𝗬𝗔𝗭𝗞𝗬 𝗕𝗢𝗧 𝟭.𝟬.𝟬𝘃`;
-
-								api.sendMessage({
-									body: messageBody,
-									attachment: fs.createReadStream(path)
-								}, event.threadID, () => fs.unlinkSync(path), event.messageID);
-							});
-						} catch (err) {
-							console.error(err);
-						}
-					}
-					//** TWITTER DOWNLOADER */
-	if (event.body !== null) {
-    try {
-      const url = event.body;
-      const path = `./cache2/${Date.now()}.mp4`;
-
-      const res = await axios.get(`https://xdl-twitter.vercel.app/kshitiz?url=${encodeURIComponent(url)}`);
-      const videoUrl = res.data.url;
-
-      const response = await axios({
-        method: "GET",
-        url: videoUrl,
-        responseType: "stream"
-      });
-
-      if (response.headers['content-length'] > 87031808) {
-        return api.sendMessage("The file is too large, cannot be sent", event.threadID, () => fs.unlinkSync(path), event.messageID);
-      }
-
-      response.data.pipe(fs.createWriteStream(path));
-      response.data.on('end', async () => {
-        const shortUrl = await shortenURL(videoUrl);
-        const messageBody = `𝖠𝗎𝗍𝗈 𝖣𝗈𝗐𝗇 TWITTER\n\n𝗬𝗔𝗭𝗞𝗬 𝗕𝗢𝗧 𝟭.𝟬.𝟬𝘃`;
-
-        api.sendMessage({
-          body: messageBody,
-          attachment: fs.createReadStream(path)
-        }, event.threadID, () => fs.unlinkSync(path), event.messageID);
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  }
-	if (event.body !== null) {
-						const url = event.body;
-						const path = `./cache2/${Date.now()}.mp4`;
-						const fs = require("fs-extra");
-const axios = require("axios");
-const cheerio = require("cheerio");
-const qs = require("qs");
-
-							try {
-								const res = await axios.get(`https://yt-downloader-eta.vercel.app/kshitiz?url=${encodeURIComponent(url)}`);
-								const videoUrl = res.data['480p'];
-
-								const response = await axios({
-									method: "GET",
-									url: videoUrl,
-									responseType: "stream"
-								});
-
-								if (response.headers['content-length'] > 87031808) {
-									return api.sendMessage("The file is too large, cannot be sent", event.threadID, () => fs.unlinkSync(path), event.messageID);
-								}
-
-								response.data.pipe(fs.createWriteStream(path));
-								response.data.on('end', async () => {
-									const shortUrl = await shortenURL(videoUrl);
-									const messageBody = `𝖠𝗎𝗍𝗈 𝖣𝗈𝗐𝗇 YOTUBE 𝖵𝗂𝖽𝖾𝗈\n\n𝗬𝗔𝗭𝗞𝗬 𝗕𝗢𝗧 𝟭.𝟬.𝟬𝘃`;
-
-									api.sendMessage({
-										body: messageBody,
-										attachment: fs.createReadStream(path)
-									}, event.threadID, () => fs.unlinkSync(path), event.messageID);
-								});
-							} catch (err) {
-								console.error(err);
-							}
-						}
-						if (event.body !== null) {
-							api.markAsReadAll(() => { });
-						}
-					/** INSTAGRAM DOWNLOADER  */
 					if (event.body !== null) {
 							const fs = require("fs-extra");
 							const axios = require("axios");
 							const qs = require("qs");
+						  const cheerio = require("cheerio");  
+    try {
+        const url = event.body;
+        const path = `./cache/${Date.now()}.mp4`;
 
-							try {
-									const url = event.body;
-									const path = `./cache/${Date.now()}.mp4`;
+        axios({
+            method: "GET",
+            url: `https://insta-downloader-ten.vercel.app/insta?url=${encodeURIComponent(url)}`
+        })
+        .then(async (res) => {
+            if (res.data.url) {
+                const response = await axios({
+                    method: "GET",
+                    url: res.data.url,
+                    responseType: "arraybuffer"
+                });
+                fs.writeFileSync(path, Buffer.from(response.data, "utf-8"));
+                if (fs.statSync(path).size / 1024 / 1024 > 25) {
+                    return api.sendMessage("The file is too large, cannot be sent", event.threadID, () => fs.unlinkSync(path), event.messageID);
+                }
 
-									axios({
-											method: "GET",
-											url: `https://insta-downloader-ten.vercel.app/insta?url=${encodeURIComponent(url)}`
-									})
-									.then(async (res) => {
-											if (res.data.url) {
-													const response = await axios({
-															method: "GET",
-															url: res.data.url,
-															responseType: "arraybuffer"
-													});
-													fs.writeFileSync(path, Buffer.from(response.data, "utf-8"));
-													if (fs.statSync(path).size / 1024 / 1024 > 25) {
-															return api.sendMessage("The file is too large, cannot be sent", event.threadID, () => fs.unlinkSync(path), event.messageID);
-													}
+                const messageBody = `𝖠𝗎𝗍𝗈 𝖣𝗈𝗐𝗇 Instagram \n\n𝗬𝗔𝗭𝗞𝗬 𝗕𝗢𝗧 𝟭.𝟬.𝟬𝘃`;
 
-													const messageBody = `𝖠𝗎𝗍𝗈 𝖣𝗈𝗐𝗇 instagram 𝖵𝗂𝖽𝖾𝗈\n\n𝗬𝗔𝗭𝗞𝗬 𝗕𝗢𝗧 𝟭.𝟬.𝟬𝘃`;
+                api.sendMessage({
+                    body: messageBody,
+                    attachment: fs.createReadStream(path)
+                }, event.threadID, () => fs.unlinkSync(path), event.messageID);
+            } else {
+                console.error("Invalid response from the API");
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+        });
+    } catch (err) {
+        console.error(err);
+    }
+}
 
-													api.sendMessage({
-															body: messageBody,
-															attachment: fs.createReadStream(path)
-													}, event.threadID, () => fs.unlinkSync(path), event.messageID);
-											} else {
-													console.error("Invalid response from the API");
-											}
-									})
-									.catch((err) => {
-											console.error(err);
-									});
-							} catch (err) {
-									console.error(err);
-							}
-					}
 					if (event.body !== null) {
 						 const regEx_tiktok = /https:\/\/(www\.|vt\.)?tiktok\.com\//;
 						 const link = event.body;
@@ -755,6 +650,12 @@ const qs = require("qs");
 																		}
 																	})();
 																}
+																		//* autoseen here
+									// Check the autoseen setting from config and apply accordingly
+									if (event.body !== null) {
+										api.markAsReadAll(() => { });
+									}
+									//*youtube auto down here
 									if (event.body !== null) {
 										const ytdl = require('ytdl-core');
 										const fs = require('fs');
