@@ -21,7 +21,7 @@ module.exports.run = async function ({ api, event, args }) {
 		}
 
 		try {
-				const API = `https://api-samir.onrender.com/carbon?code=${encodeURIComponent(text)}&themeNumber=${encodeURIComponent(backgroundColor || "5")}`;
+				const API = `https://apis-samir.onrender.com/carbon?code=${encodeURIComponent(text)}&themeNumber=${encodeURIComponent(backgroundColor || "5")}`;
 				const imageStream = (await axios.get(API, { responseType: 'stream' })).data;
 
 				// Sending the message
