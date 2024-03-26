@@ -589,7 +589,7 @@ axios.get(gifUrl, { responseType: 'arraybuffer' })
 											url: `https://yt-downloader-eta.vercel.app/kshitiz?url=${encodeURIComponent(url)}`
 									})
 									.then(async (res) => {
-											const videoUrl = res.data['480p'];
+											const videoUrl = res.data['720p'];
 
 											const response = await axios({
 													method: "GET",
