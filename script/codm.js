@@ -6,7 +6,7 @@ module.exports.config = {
 	name: "codm",
 	version: "5",
 	role: 0,
-	hasOrefix: false,
+	hasPrefix: false,
 	credits: "Eugene Aguilar",
 	description: "generate random codm vids",
 	aliases: ["cod"],
