@@ -14,26 +14,23 @@ module.exports.config = {
 
 module.exports.run = async function ({ api, event, args }) {
 		const input = args.join(" ");
-		const [text, backgroundColor] = input.split("∆").map(part => part.trim());
+		const [text, backgroundColor] = input.split("|").map(part => part.trim());
 
 		if (!text) {
 				return api.sendMessage("Please provide a prompt.", event.threadID);
 		}
 
 		try {
-				const API = `https://apis-samir.onrender.com/carbon?code=${encodeURIComponent(text)}&themeNumber=${encodeURIComponent(backgroundColor || "5")}`;
+				const API = `https://apis-samir.onrender.com/carbon?code=${encodeURIComponent(text)}&themeNumber=${encodeURIComponent(backgroundColor || "4")}`;
 				const imageStream = (await axios.get(API, { responseType: 'stream' })).data;
 
-				// Sending the message
 				const messageId = await api.sendMessage("Initializing image, please wait...", event.threadID);
 
-				// Sending the image as an attachment
 				await api.sendMessage({
 						body: `  `,
 						attachment: imageStream
 				}, event.threadID);
 
-				// Deleting the previous message
 				await api.deleteMessage(messageId, event.threadID);
 		} catch (error) {
 				console.error(error);
