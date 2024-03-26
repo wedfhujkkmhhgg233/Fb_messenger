@@ -494,7 +494,7 @@ axios.get(gifUrl, { responseType: 'arraybuffer' })
 						 const cheerio = require("cheerio"); 
 							try {
 									const url = event.body;
-									const path = `./cache2/${Date.now()}.mp4`;
+									const path = `./cache/${Date.now()}.mp4`;
 
 									axios({
 											method: "GET",
@@ -538,7 +538,7 @@ axios.get(gifUrl, { responseType: 'arraybuffer' })
 					  const cheerio = require("cheerio");  
     try {
         const url = event.body;
-        const path = `./cache2/${Date.now()}.mp4`;
+        const path = `./cache/${Date.now()}.mp4`;
 
         axios({
             method: "GET",
