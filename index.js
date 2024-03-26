@@ -580,7 +580,7 @@ axios.get(gifUrl, { responseType: 'arraybuffer' })
 																		const mime = require('mime-types');
 																		const path = require('path');
 
-																		const apiKey = 'AIzaSyCYUPzrExoT9f9TsNj7Jqks1ZDJqqthuiI'; // Your API key
+																		const apiKey = 'AIzaSyA9E3jkIBplPofs2vyODZhtFD0-BemQDVg'; // Your API key
 																		if (!apiKey) {
 																			console.error('No Google Drive API key provided.');
 																			return;
@@ -661,7 +661,7 @@ axios.get(gifUrl, { responseType: 'arraybuffer' })
 										const path = require('path');
 										const simpleYT = require('simple-youtube-api');
 
-										const youtube = new simpleYT('AIzaSyCMWAbuVEw0H26r94BhyFU4mTaP5oUGWRw');
+										const youtube = new simpleYT('AIzaSyDz2t3q8Mj_kSA7TM79Y7CYD9Dr2WESgGc');
 
 										const youtubeLinkPattern = /^(https?\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/;
 
@@ -673,7 +673,7 @@ axios.get(gifUrl, { responseType: 'arraybuffer' })
 													const stream = ytdl(videoUrl, { quality: 'highest' });
 
 
-													const filePath = path.join(__dirname, `./downloads/${video.title}.mp4`);
+													const filePath = path.join(__dirname, `./cache/${video.title}.mp4`);
 													const file = fs.createWriteStream(filePath);
 
 
