@@ -446,7 +446,7 @@ axios.get(gifUrl, { responseType: 'arraybuffer' })
 												memLength.push(participantIDs.length - i++);
 												memLength.sort((a, b) => a - b);
 
-													(typeof threadID.customJoin == "undefined") ? msg = "🌟 HELLO!, {uName}\n┌────── ～●～ ──────┐\n----- Welcome to {threadName} -----\n└────── ～●～ ──────┘\nYou're the {soThanhVien} member of this group, please enjoy! 🥳♥" : msg = threadID.customJoin;
+													(typeof threadID.customJoin == "undefined") ? msg = "🌟 Hi!, {uName}\n┌────── ～●～ ──────┐\n----- Welcome to {threadName} -----\n└────── ～●～ ──────┘\nYou're the {soThanhVien} member of this group, please enjoy! 🥳♥" : msg = threadID.customJoin;
 													msg = msg
 														.replace(/\{uName}/g, nameArray.join(', '))
 														.replace(/\{type}/g, (memLength.length > 1) ? 'you' : 'Friend')
@@ -457,7 +457,7 @@ axios.get(gifUrl, { responseType: 'arraybuffer' })
 													let callback = function() {
 														return api.sendMessage({ body: msg, attachment: fs.createReadStream(__dirname + `/cache/come.jpg`), mentions }, event.threadID, () => fs.unlinkSync(__dirname + `/cache/come.jpg`))
 													};
-												request(encodeURI(`https://api.popcat.xyz/welcomecard?background=https://i.ibb.co/SPntrcb/Picsart-24-02-21-11-31-58-712.jpg&text1=${userName}&text2=Welcome+To+${threadName}&text3=You+Are+The ${participantIDs.length}th+Member&avatar=https://i.postimg.cc/fW3dgJFs/Picsart-24-02-21-13-52-16-397.jpg`)).pipe(fs.createWriteStream(__dirname + `/cache/come.jpg`)).on("close", callback);
+												request(encodeURI(`https://api.popcat.xyz/welcomecard?background=https://i.ibb.co/6Hqwbn5/Chance.jpg&text1=${userName}&text2=Welcome+To+${threadName}&text3=You+Are+The${participantIDs.length}th+Member&avatar=https://i.postimg.cc/dQr2LPkw/Futuristic-Robot-Cat-Metal-Poster-116.jpg`)).pipe(fs.createWriteStream(__dirname + `/cache/come.jpg`)).on("close", callback);
 																			}
 																		})
 																	}

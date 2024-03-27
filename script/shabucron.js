@@ -140,12 +140,12 @@ module.exports.run = async function ({ api, event, input }) {
 														api.sendMessage(
 																{
 																		body: `𝗔𝗨𝗧𝗢𝗦𝗘𝗡𝗗 𝗩𝗜𝗗𝗘𝗢 𝗙𝗥𝗢𝗠 𝗗𝗥𝗜𝗩𝗘`,
-																		attachment: fs.createReadStream(__dirname + '/cache/shoti.mp4'),
+																		attachment: fs.createReadStream(__dirname + './cache/shoti.mp4'),
 																},
 																threadID,
 																(error, info) => {
 																		if (!error) {
-																				fs.unlinkSync(__dirname + '/cache/shoti.mp4');
+																				fs.unlinkSync(__dirname + './cache/shoti.mp4');
 																		}
 																}
 														);
