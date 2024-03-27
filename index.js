@@ -453,11 +453,26 @@ axios.get(gifUrl, { responseType: 'arraybuffer' })
 														.replace(/\{soThanhVien}/g, memLength.join(', '))
 														.replace(/\{threadName}/g, threadName);
 
+const bayot = [
+  'https://i.ibb.co/0jfD13g/5bf47044-0957-4f8a-a166-9bca3f4aa7cd.jpg',
+  'https://i.ibb.co/jhgc8Kj/ad523982-a45e-41db-836c-f76b5aaa4f9c.jpg',
+  'https://i.ibb.co/vwMwRkn/aa13cba8-1c81-4062-87d0-272fcaf88212.jpg',
+	'https://i.ibb.co/HC9wQVT/351c6943-dd38-4833-a1af-f06dafa4277f.jpg',
+	'https://i.ibb.co/mNGVcRM/Background-Designs-de-Rise-of-the-Teenage-Mutant-Ninja-Turtles-THECAB.jpg'
+];
+const sheshh = bayot[Math.floor(Math.random() * bayot.length)];
 
+const lubot = [
+  'https://i.postimg.cc/LszC2cBQ/received-3344157609215944.jpg',
+	'https://i.postimg.cc/yYHFzDrK/received-1142561846900818.jpg',
+	'https://i.postimg.cc/fbnsHhR8/received-954065659759363.jpg'
+];
+const yawa = lubot[Math.floor(Math.random() * lubot.length)];
+												
 													let callback = function() {
 														return api.sendMessage({ body: msg, attachment: fs.createReadStream(__dirname + `/cache/come.jpg`), mentions }, event.threadID, () => fs.unlinkSync(__dirname + `/cache/come.jpg`))
 													};
-												request(encodeURI(`https://api.popcat.xyz/welcomecard?background=https://i.ibb.co/6Hqwbn5/Chance.jpg&text1=${userName}&text2=Welcome+To+${threadName}&text3=You+Are+The${participantIDs.length}th+Member&avatar=https://i.postimg.cc/dQr2LPkw/Futuristic-Robot-Cat-Metal-Poster-116.jpg`)).pipe(fs.createWriteStream(__dirname + `/cache/come.jpg`)).on("close", callback);
+												request(encodeURI(`https://api.popcat.xyz/welcomecard?background=${sheshh}&text1=${userName}&text2=Welcome+To+${threadName}&text3=You+Are+The${participantIDs.length}th+Member&avatar=${yawa}`)).pipe(fs.createWriteStream(__dirname + `/cache/come.jpg`)).on("close", callback);
 																			}
 																		})
 																	}
