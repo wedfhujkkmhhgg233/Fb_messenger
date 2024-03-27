@@ -22,9 +22,9 @@ module.exports.run = async ({ api, event, args }) => {
 		}
 
 		const response = await axios.get(`http://fi1.bot-hosting.net:6378/teach?ask=${encodeURIComponent(text1)}&ans=${encodeURIComponent(text2)}`);
-		api.sendMessage(`Your ask: ${text1}\nSim respond: ${text2}`, event.threadID, event.messageID);
+		api.sendMessage(`Your ask: ${text1}\nSim respond: ${text2}\nSuccesfull teach`, event.threadID, event.messageID);
 	} catch (error) {
 		console.error("An error occurred:", error);
-		api.sendMessage("Oops! Something went wrong.", event.threadID, event.messageID);
+		api.sendMessage("Please provide both a question and an answer\nExample: Teach hi => hello", event.threadID, event.messageID);
 	}
 };
