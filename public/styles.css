@@ -7,17 +7,16 @@ body {
 }
  .container {
 	   color: #FFFF;
-	   background: transparent;
-	   backdrop-filter: blur(10px);
+	   background: #000000;
 		 border-radius: 10px;
 		 padding: 20px;
-	   box-shadow: 0 0 .2rem #fff,0 0 .2rem #fff, 0 0 2rem #bc13fe,
-            0 0 0.8rem #bc13fe,
-            0 0 2.8rem #bc13fe,
-            inset 0 0 1.3rem #bc13fe;
+	   box-shadow: 0 0 .2rem #fff,0 0 .2rem #fff, 0 0 2rem #1F51FF,
+            0 0 0.8rem #1F51FF,
+            0 0 2.8rem #1F51FF,
+            inset 0 0 1.3rem #1F51FF;
 		 margin-top: 20px;
 		 margin-bottom: 20px;
-	  outline: 2px solid #FFFFFF;
+	 outline: #FFFFFF;
 }
  h1 {
 		 color: #FFFFFF;

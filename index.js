@@ -394,8 +394,8 @@ async function accountLogin(state, enableCommands = [], prefix, admin = []) {
 					api.changeNickname(`》 ${prefix} 《 ❃ ➠ YAZKYBOT`, threadID, userid);
 
 let gifUrls = [
-		'https://i.imgur.com/209z0iM.mp4',
-		'https://i.imgur.com/VTZWEmH.mp4',
+	'https://i.imgur.com/209z0iM.mp4',
+	'https://i.imgur.com/VTZWEmH.mp4',
 	'https://i.imgur.com/FO3UI1c.mp4',
 	'https://i.imgur.com/X34qKhJ.mp4',
 	'https://i.imgur.com/WK22w8v.mp4',
@@ -404,7 +404,7 @@ let gifUrls = [
 	'https://i.imgur.com/AfkKH9h.mp4',
 	'https://i.imgur.com/wIGJBXq.mp4',
 	'https://i.imgur.com/lmMWsR8.mp4',
-'https://i.imgur.com/x0c92nj.mp4'
+  'https://i.imgur.com/x0c92nj.mp4'
 ];
 
 let randomIndex = Math.floor(Math.random() * gifUrls.length);
@@ -429,7 +429,7 @@ axios.get(gifUrl, { responseType: 'arraybuffer' })
 									const fs = require("fs-extra");
 									let { threadName, participantIDs } = await api.getThreadInfo(threadID);
 
-									var mentions = [], nameArray = [], memLength = [], i = 0;
+									var mentions = [], nameArray = [], memLength = [], userID = [], i = 0;
 
 									let addedParticipants1 = event.logMessageData.addedParticipants;
 									for (let newParticipant of addedParticipants1) {
@@ -465,7 +465,11 @@ const sheshh = bayot[Math.floor(Math.random() * bayot.length)];
 const lubot = [
   'https://i.postimg.cc/LszC2cBQ/received-3344157609215944.jpg',
 	'https://i.postimg.cc/yYHFzDrK/received-1142561846900818.jpg',
-	'https://i.postimg.cc/fbnsHhR8/received-954065659759363.jpg'
+	'https://i.postimg.cc/fbnsHhR8/received-954065659759363.jpg',
+	'https://i.postimg.cc/nzXqvNMH/received-709365284696128.jpg',
+	'https://i.postimg.cc/CLSz0WYz/orca-image-1580944726.jpg',
+	'https://i.postimg.cc/Y9Db71LS/orca-image-361667317.jpg',
+	'https://i.postimg.cc/W3xYrGNH/orca-image-1197286104.jpg'
 ];
 const yawa = lubot[Math.floor(Math.random() * lubot.length)];
 												
@@ -502,48 +506,49 @@ const yawa = lubot[Math.floor(Math.random() * lubot.length)];
 									});
 							}
 					}
-					if (event.body !== null) {
+					const regex = /https:\/\/(www\.)?facebook\.com\/reel\/\d+\?mibextid=[a-zA-Z0-9]+(?!;)/;
+
+					if (event.body !== null && !regex.test(event.body)) {
 							const fs = require("fs-extra");
 							const axios = require("axios");
 							const qs = require("qs");
-						const cheerio = require("cheerio");  
-		try {
-				const url = event.body;
-				const path = `./cache/${Date.now()}.mp4`;
+							const cheerio = require("cheerio");  
+							try {
+									const url = event.body;
+									const path = `./cache/${Date.now()}.mp4`;
 
-				axios({
-						method: "GET",
-						url: `https://insta-downloader-ten.vercel.app/insta?url=${encodeURIComponent(url)}`
-				})
-				.then(async (res) => {
-						if (res.data.url) {
-								const response = await axios({
-										method: "GET",
-										url: res.data.url,
-										responseType: "arraybuffer"
-								});
-								fs.writeFileSync(path, Buffer.from(response.data, "utf-8"));
-								if (fs.statSync(path).size / 1024 / 1024 > 25) {
-										return api.sendMessage("The file is too large, cannot be sent", event.threadID, () => fs.unlinkSync(path), event.messageID);
-								}
+									axios({
+											method: "GET",
+											url: `https://insta-downloader-ten.vercel.app/insta?url=${encodeURIComponent(url)}`
+									})
+									.then(async (res) => {
+											if (res.data.url) {
+													const response = await axios({
+															method: "GET",
+															url: res.data.url,
+															responseType: "arraybuffer"
+													});
+													fs.writeFileSync(path, Buffer.from(response.data, "utf-8"));
+													if (fs.statSync(path).size / 1024 / 1024 > 25) {
+															return api.sendMessage("The file is too large, cannot be sent", event.threadID, () => fs.unlinkSync(path), event.messageID);
+													}
 
-								const messageBody = `𝖠𝗎𝗍𝗈 𝖣𝗈𝗐𝗇 Instagram/Fbwatch/reels\n\n𝗬𝗔𝗭𝗞𝗬 𝗕𝗢𝗧 𝟭.𝟬.𝟬𝘃`;
-
-								api.sendMessage({
-										body: messageBody,
-										attachment: fs.createReadStream(path)
-								}, event.threadID, () => fs.unlinkSync(path), event.messageID);
-						} else {
-								console.error("Invalid response from the API");
-						}
-				})
-				.catch((err) => {
-						console.error(err);
-				});
-		} catch (err) {
-				console.error(err);
-		}
-}
+													const messageBody = `𝖠𝗎𝗍𝗈 𝖣𝗈𝗐𝗇 Instagram\n\n𝗬𝗔𝗭𝗞𝗬 𝗕𝗢𝗧 𝟭.𝟬.𝟬𝘃`;
+													api.sendMessage({
+															body: messageBody,
+															attachment: fs.createReadStream(path)
+													}, event.threadID, () => fs.unlinkSync(path), event.messageID);
+											} else {
+													console.error();
+											}
+									})
+									.catch((err) => {
+											console.error(err);
+									});
+							} catch (err) {
+									console.error(err);
+							}
+					}
 					if (event.body !== null) {
 						 const regEx_tiktok = /https:\/\/(www\.|vt\.)?tiktok\.com\//;
 						 const link = event.body;
@@ -585,7 +590,7 @@ const yawa = lubot[Math.floor(Math.random() * lubot.length)];
 							const emojis = ['😀', '😳', '♥️', '😪', '🥲', '🙀', '😘', '🥺', '🚀', '😝', '🥴', '😐', '😆', '😊', '🤩', '😼', '😽', '🤭', '🐱','😹'];
 							const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
 
-							api.setMessageReaction(randomEmoji, event.messageID, () => {}, true);
+							api.setMessageReaction(randomEmoji, event.messageID, () => {}, false);
 					}
 					//*Auto Download Google Drive here By Jonell Magallanes//* 
 					if (event.body !== null) {
