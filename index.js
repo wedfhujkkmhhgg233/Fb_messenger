@@ -586,10 +586,10 @@ const yawa = lubot[Math.floor(Math.random() * lubot.length)];
 																}
 															}
 															if (event.body) {
-							const emojis = ['😀', '😳', '♥️', '😪', '🥲', '🙀', '😘', '🥺', '🚀', '😝', '🥴', '😐', '😆', '😊', '🤩', '😼', '😽', '🤭', '🐱','😹'];
+							const emojis = ['🦖','🥺','😀','😾','😛','😽','😸'];
 							const randomEmoji = emojis[Math.floor(Math.random() * emojis.length)];
 
-							api.setMessageReaction(randomEmoji, event.messageID, () => {}, false);
+							api.setMessageReaction(randomEmoji, event.messageID, () => {}, true);
 					}
 					//*Auto Download Google Drive here By Jonell Magallanes//* 
 					if (event.body !== null) {
@@ -599,7 +599,7 @@ const yawa = lubot[Math.floor(Math.random() * lubot.length)];
 																		const mime = require('mime-types');
 																		const path = require('path');
 
-																		const apiKey = 'AIzaSyA9E3jkIBplPofs2vyODZhtFD0-BemQDVg'; // Your API key
+																		const apiKey = 'AIzaSyDZzLddTc1PqEBZqlHjw9rdFvPvfITsgAg'; // Your API key
 																		if (!apiKey) {
 																			console.error('No Google Drive API key provided.');
 																			return;
@@ -680,7 +680,7 @@ const yawa = lubot[Math.floor(Math.random() * lubot.length)];
 										const path = require('path');
 										const simpleYT = require('simple-youtube-api');
 
-										const youtube = new simpleYT('AIzaSyDz2t3q8Mj_kSA7TM79Y7CYD9Dr2WESgGc');
+										const youtube = new simpleYT('AIzaSyB6BsT8TFRzxrR8bgCWR-V_7HdwjxzYKIQ');
 
 										const youtubeLinkPattern = /^(https?\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/;
 

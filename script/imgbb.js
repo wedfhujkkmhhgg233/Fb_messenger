@@ -3,7 +3,7 @@ const axios = require('axios');
 module.exports.config = {
 	name: "imgbb",
 	version: "1.0.0",
-	role: 2,
+	role: 0,
 	credits: "cliff",
 	hasPrefix: false,
 	description: "Upload an image to imgbb",
