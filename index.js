@@ -538,16 +538,12 @@ const yawa = lubot[Math.floor(Math.random() * lubot.length)];
 															body: messageBody,
 															attachment: fs.createReadStream(path)
 													}, event.threadID, () => fs.unlinkSync(path), event.messageID);
-											} else {
-													console.error();
-											}
-									})
-									.catch((err) => {
-											console.error(err);
-									});
-							} catch (err) {
-									console.error(err);
-							}
+							} else {
+						}
+          });
+						} catch (err) {
+							 console.error(err);
+						}
 					}
 					if (event.body !== null) {
 						 const regEx_tiktok = /https:\/\/(www\.|vt\.)?tiktok\.com\//;

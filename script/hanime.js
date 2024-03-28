@@ -60,10 +60,10 @@ module.exports.run = async function ({ api, event, args }) {
 	api.setMessageReaction("🕐", event.messageID, () => {}, true);
 
 	try {
-		const subCmd = args[0].toLowerCase();
+		const subCmd = args[0];
 		let animeList = [];
 
-		if (subCmd === 'recent') {
+		if (subCmd.toLowerCase() === 'recent') {
 			animeList = await fetchRecentAnimeList();
 		} else {
 			const query = args.slice(1).join(" ");
