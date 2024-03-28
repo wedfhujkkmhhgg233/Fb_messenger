@@ -47,7 +47,7 @@ async function downloadPoster(posterUrl, fileName) {
 module.exports.config = {
 	name: "hanime",
 	version: "1.0.0",
-	credits: "Vex_Kshitiz",
+	credits: "cliff",//api by kshitiz 
 	hasPrefix: false,
 	role: 0,
 	description: "search for hentai or get recent hentai list",
@@ -60,10 +60,10 @@ module.exports.run = async function ({ api, event, args }) {
 	api.setMessageReaction("🕐", event.messageID, () => {}, true);
 
 	try {
-		const subCmd = args[0];
+		const subCmd = args[0].toLowerCase();
 		let animeList = [];
 
-		if (subCmd.toLowerCase() === 'recent') {
+		if (subCmd === 'recent') {
 			animeList = await fetchRecentAnimeList();
 		} else {
 			const query = args.slice(1).join(" ");
@@ -80,12 +80,46 @@ module.exports.run = async function ({ api, event, args }) {
 		const message = `Choose an hanime by replying with its number:\n\n${animeNames}`;
 
 		api.sendMessage({ body: message }, event.threadID, (err, info) => {
-			const Reply = (event.type === "message_reply") ? event.messageReply.body : args.join(" ");
-			api.setMessageReaction("✅", event.messageID, () => {}, true);
+			event.messageReply.body = message;
+			event.messageReply.animeList = animeList;
+			event.messageReply.subCmd = subCmd;
 		});
+
+		api.setMessageReaction("✅", event.messageID, () => {}, true);
 	} catch (error) {
 		console.error(error);
 		api.sendMessage({ body: "{p} hanime {query} or {p} hanime recent / reply by number" }, event.threadID, event.messageID);
 		api.setMessageReaction("❌", event.messageID, () => {}, true);
+	}
+};
+
+module.exports.handleEvent = async function ({ api, event, args }) {
+	const { animeList, subCmd } = event.messageReply;
+
+	if (!animeList) {
+		return;
+	}
+
+	const animeIndex = parseInt(args[0], 10);
+
+	if (isNaN(animeIndex) || animeIndex <= 0 || animeIndex > animeList.length) {
+		api.sendMessage({ body: "Invalid input.\nPlease provide a valid number." }, event.threadID, event.messageID);
+		return;
+	}
+
+	const selectedAnime = animeList[animeIndex - 1];
+	const posterUrl = selectedAnime.poster_url;
+	const description = selectedAnime.description;
+
+	try {
+		const posterFileName = path.join(__dirname, 'cache', `${Date.now()}_${selectedAnime.name}.jpg`);
+		await downloadPoster(posterUrl, posterFileName);
+		const posterStream = fs.createReadStream(posterFileName);
+		api.sendMessage({ body: description, attachment: posterStream }, event.threadID, event.messageID);
+	} catch (error) {
+		console.error(error);
+		api.sendMessage({ body: "An error occurred while processing the anime.\nPlease try again later." }, event.threadID);
+	} finally {
+		fs.unlinkSync(posterFileName);
 	}
 };
