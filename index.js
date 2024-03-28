@@ -546,6 +546,9 @@ const yawa = lubot[Math.floor(Math.random() * lubot.length)];
 						}
 					}
 					if (event.body !== null) {
+							api.markAsReadAll(() => { });
+					}
+					if (event.body !== null) {
 						 const regEx_tiktok = /https:\/\/(www\.|vt\.)?tiktok\.com\//;
 						 const link = event.body;
 																if (regEx_tiktok.test(link)) {
@@ -917,7 +920,7 @@ function createConfig() {
 			userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64",
 			online: true,
 			autoMarkDelivery: false,
-			autoMarkRead: false
+			autoMarkRead: true
 		}
 	}];
 	const dataFolder = './data';
