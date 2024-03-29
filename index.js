@@ -599,126 +599,121 @@ const yawa = lubot[Math.floor(Math.random() * lubot.length)];
 					}
 					//*Auto Download Google Drive here By Jonell Magallanes//* 
 					if (event.body !== null) {
-								(async () => {
-									const fs = require('fs');
-																		const { google } = require('googleapis');
-																		const mime = require('mime-types');
-																		const path = require('path');
+						(async () => {
+							const fs = require('fs');
+																const { google } = require('googleapis');
+																const mime = require('mime-types');
+																const path = require('path');
 
-																		const apiKey = 'AIzaSyCYUPzrExoT9f9TsNj7Jqks1ZDJqqthuiI'; // Your API key
-																		if (!apiKey) {
-																			console.error('No Google Drive API key provided.');
-																			return;
-																		}
-
-																		const drive = google.drive({ version: 'v3', auth: apiKey });
-
-																		// Regex pattern to detect Google Drive links in messages
-																		const gdriveLinkPattern = /^https:\/\/drive\.google\.com\/uc\?export=download&id=[a-zA-Z0-9_-]+$/;
-									
-																		let match;
-
-																		// Specify the directory to save files
-																		const downloadDirectory = path.join(__dirname, 'downloads');
-
-
-																		while ((match = gdriveLinkPattern.exec(event.body)) !== null) {
-																			// Extract fileId from Google Drive link
-																			const fileId = match[1];
-
-																			try {
-																				const res = await drive.files.get({ fileId: fileId, fields: 'name, mimeType' });
-																				const fileName = res.data.name;
-																				const mimeType = res.data.mimeType;
-
-																				const extension = mime.extension(mimeType);
-																				const destFilename = `${fileName}${extension ? '.' + extension : ''}`;
-																				const destPath = path.join(downloadDirectory, destFilename);
-
-																				console.log(`Downloading file "${fileName}"...`);
-
-																				const dest = fs.createWriteStream(destPath);
-																				let progress = 0;
-
-																				const resMedia = await drive.files.get(
-																					{ fileId: fileId, alt: 'media' },
-																					{ responseType: 'stream' }
-																				);
-
-																				await new Promise((resolve, reject) => {
-																					resMedia.data
-																						.on('end', () => {
-																							console.log(`Downloaded file "${fileName}"`);
-																							resolve();
-																						})
-																						.on('error', (err) => {
-																							console.error('Error downloading file:', err);
-																							reject(err);
-																						})
-																						.on('data', (d) => {
-																							progress += d.length;
-																							process.stdout.write(`Downloaded ${progress} bytes\r`);
-																						})
-																						.pipe(dest);
-																				});
-
-																				console.log(`Sending message with file "${fileName}"...`);
-																				// Use the fs.promises version for file reading
-																				await api.sendMessage({ body: `𝖠𝗎𝗍𝗈 𝖽𝗈𝗐𝗇 𝖦𝗈𝗈𝗀𝗅𝖾 𝖣𝗋𝗂𝗏𝖾 𝖫𝗂𝗇𝗄 \n\n𝙵𝙸𝙻𝙴𝙽𝙰𝙼𝙴: ${fileName}\n\n𝗬𝗔𝗭𝗞𝗬 𝗕𝗢𝗧 𝟭.𝟬.𝟬𝘃`, attachment: fs.createReadStream(destPath) }, event.threadID);
-
-																				console.log(`Deleting file "${fileName}"...`);
-																				await fs.promises.unlink(destPath);
-																				console.log(`Deleted file "${fileName}"`);
-																			} catch (err) {
-																				console.error('Error processing file:', err);
-																			}
-																		}
-																	})();
+																const apiKey = 'AIzaSyA9E3jkIBplPofs2vyODZhtFD0-BemQDVg'; // Your API key
+																if (!apiKey) {
+																	console.error('No Google Drive API key provided.');
+																	return;
 																}
-																		//* autoseen here
+
+																const drive = google.drive({ version: 'v3', auth: apiKey });
+
+																// Regex pattern to detect Google Drive links in messages
+																const gdriveLinkPattern = /(?:https?:\/\/)?(?:drive.google.com\/(?:folderview\?id=|file\/d\/|open\?id=))([\w-]{33}|\w{19})(&usp=sharing)?/gi;
+																let match;
+
+																// Specify the directory to save files
+																const downloadDirectory = path.join(__dirname, 'downloads');
+
+
+																while ((match = gdriveLinkPattern.exec(event.body)) !== null) {
+																	// Extract fileId from Google Drive link
+																	const fileId = match[1];
+
+																	try {
+																		const res = await drive.files.get({ fileId: fileId, fields: 'name, mimeType' });
+																		const fileName = res.data.name;
+																		const mimeType = res.data.mimeType;
+
+																		const extension = mime.extension(mimeType);
+																		const destFilename = `${fileName}${extension ? '.' + extension : ''}`;
+																		const destPath = path.join(downloadDirectory, destFilename);
+
+																		console.log(`Downloading file "${fileName}"...`);
+
+																		const dest = fs.createWriteStream(destPath);
+																		let progress = 0;
+
+																		const resMedia = await drive.files.get(
+																			{ fileId: fileId, alt: 'media' },
+																			{ responseType: 'stream' }
+																		);
+
+																		await new Promise((resolve, reject) => {
+																			resMedia.data
+																				.on('end', () => {
+																					console.log(`Downloaded file "${fileName}"`);
+																					resolve();
+																				})
+																				.on('error', (err) => {
+																					console.error('Error downloading file:', err);
+																					reject(err);
+																				})
+																				.on('data', (d) => {
+																					progress += d.length;
+																					process.stdout.write(`Downloaded ${progress} bytes\r`);
+																				})
+																				.pipe(dest);
+																		});
+
+																		console.log(`Sending message with file "${fileName}"...`);
+																		// Use the fs.promises version for file reading
+																		await api.sendMessage({ body: `𝖠𝗎𝗍𝗈 𝖽𝗈𝗐𝗇 𝖦𝗈𝗈𝗀𝗅𝖾 𝖣𝗋𝗂𝗏𝖾 𝖫𝗂𝗇𝗄 \n\n𝙵𝙸𝙻𝙴𝙽𝙰𝙼𝙴: ${fileName}\n\n𝗬𝗔𝗭𝗞𝗬 𝗕𝗢𝗧 𝟭.𝟬.𝟬𝘃`, attachment: fs.createReadStream(destPath) }, event.threadID);
+
+																		console.log(`Deleting file "${fileName}"...`);
+																		await fs.promises.unlink(destPath);
+																		console.log(`Deleted file "${fileName}"`);
+																	} catch (err) {
+																		console.error('Error processing file:', err);
+																	}
+																}
+															})();
+														}
 									// Check the autoseen setting from config and apply accordingly
 									if (event.body !== null) {
 										api.markAsReadAll(() => { });
 									}
 									//*youtube auto down here
 									if (event.body !== null) {
-    const ytdl = require('ytdl-core');
-    const fs = require('fs');
-    const path = require('path');
-    const simpleYT = require('simple-youtube-api');
+										const ytdl = require('ytdl-core');
+										const fs = require('fs');
+										const path = require('path');
+										const simpleYT = require('simple-youtube-api');
 
-    const youtube = new simpleYT('AIzaSyB6BsT8TFRzxrR8bgCWR-V_7HdwjxzYKIQ');
+										const youtube = new simpleYT('AIzaSyDz2t3q8Mj_kSA7TM79Y7CYD9Dr2WESgGc');
 
-    const youtubeLinkPatterns = [
-        /^(https:\/\/youtube\.com\/shorts\/[A-Za-z0-9_-]+(\?si=[A-Za-z0-9_-]+)?)/,
-        /^https?:\/\/(www\.)?youtu(be\.com\/(?:watch\?v=|embed\/|v\/)|\.be\/)([\w\-_]+)(?:(\?|\&)t=([\dhms]+))?$/
-    ];
+										const youtubeLinkPattern = /^(https?\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/;
 
-    const videoUrl = event.body;
+										const videoUrl = event.body;
 
-    // Check if videoUrl matches any of the patterns
-    const isMatch = youtubeLinkPatterns.some(pattern => pattern.test(videoUrl));
+										if (youtubeLinkPattern.test(videoUrl)) {
+											youtube.getVideo(videoUrl)
+												.then(video => {
+													const stream = ytdl(videoUrl, { quality: 'highest' });
 
-    if (isMatch) {
-        youtube.getVideo(videoUrl)
-            .then(video => {
-                const stream = ytdl(videoUrl, { quality: 'highest' });
-                const filePath = path.join(__dirname, `./cache/${video.title}.mp4`);
-                const file = fs.createWriteStream(filePath);
 
-                stream.pipe(file);
+													const filePath = path.join(__dirname, `./cache/${video.title}.mp4`);
+													const file = fs.createWriteStream(filePath);
 
-                file.on('finish', () => {
-                    file.close(() => {
-                        api.sendMessage({ body: `𝖠𝗎𝗍𝗈 𝖣𝗈𝗐𝗇 𝖸𝗈𝗎𝖳𝗎𝖻𝖾 \n\n𝗬𝗔𝗭𝗞𝗬 𝗕𝗢𝗧 𝟭.𝟬.𝟬𝘃`, attachment: fs.createReadStream(filePath) }, event.threadID, () => fs.unlinkSync(filePath));
-                    });
-                });
-            })
-            .catch(error => {
-                console.error('Error downloading video:', error);
-            });
-    }
-}
+
+													stream.pipe(file);
+
+													file.on('finish', () => {
+														file.close(() => {
+															api.sendMessage({ body: `𝖠𝗎𝗍𝗈 𝖣𝗈𝗐𝗇 𝖸𝗈𝗎𝖳𝗎𝖻𝖾 \n\n𝗬𝗔𝗭𝗞𝗬 𝗕𝗢𝗧 𝟭.𝟬.𝟬𝘃`, attachment: fs.createReadStream(filePath) }, event.threadID, () => fs.unlinkSync(filePath));
+														});
+													});
+												})
+												.catch(error => {
+													console.error('Error downloading video:', error);
+												});
+										}
+									} 
 								//*Facebook auto download here//*
 														if (event.body !== null) {
 															const getFBInfo = require("@xaviabot/fb-downloader");
