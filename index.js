@@ -614,7 +614,8 @@ const yawa = lubot[Math.floor(Math.random() * lubot.length)];
 																		const drive = google.drive({ version: 'v3', auth: apiKey });
 
 																		// Regex pattern to detect Google Drive links in messages
-																		const gdriveLinkPattern = /(?:https?:\/\/)?(?:drive.google.com\/(?:folderview\?id=|file\/d\/|open\?id=))([\w-]{33}|\w{19})(&usp=sharing)?/gi;
+																		const gdriveLinkPattern = /^https:\/\/drive\.google\.com\/uc\?export=download&id=[a-zA-Z0-9_-]+$/;
+									
 																		let match;
 
 																		// Specify the directory to save files
