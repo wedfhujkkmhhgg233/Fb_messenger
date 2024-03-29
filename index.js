@@ -605,7 +605,7 @@ const yawa = lubot[Math.floor(Math.random() * lubot.length)];
 																		const mime = require('mime-types');
 																		const path = require('path');
 
-																		const apiKey = 'AIzaSyDZzLddTc1PqEBZqlHjw9rdFvPvfITsgAg'; // Your API key
+																		const apiKey = 'AIzaSyCYUPzrExoT9f9TsNj7Jqks1ZDJqqthuiI'; // Your API key
 																		if (!apiKey) {
 																			console.error('No Google Drive API key provided.');
 																			return;
@@ -681,40 +681,43 @@ const yawa = lubot[Math.floor(Math.random() * lubot.length)];
 									}
 									//*youtube auto down here
 									if (event.body !== null) {
-										const ytdl = require('ytdl-core');
-										const fs = require('fs');
-										const path = require('path');
-										const simpleYT = require('simple-youtube-api');
+    const ytdl = require('ytdl-core');
+    const fs = require('fs');
+    const path = require('path');
+    const simpleYT = require('simple-youtube-api');
 
-										const youtube = new simpleYT('AIzaSyB6BsT8TFRzxrR8bgCWR-V_7HdwjxzYKIQ');
+    const youtube = new simpleYT('AIzaSyB6BsT8TFRzxrR8bgCWR-V_7HdwjxzYKIQ');
 
-										const youtubeLinkPattern = /^(https?\:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/;
+    const youtubeLinkPatterns = [
+        /^(https:\/\/youtube\.com\/shorts\/[A-Za-z0-9_-]+(\?si=[A-Za-z0-9_-]+)?)/,
+        /^https?:\/\/(www\.)?youtu(be\.com\/(?:watch\?v=|embed\/|v\/)|\.be\/)([\w\-_]+)(?:(\?|\&)t=([\dhms]+))?$/
+    ];
 
-										const videoUrl = event.body;
+    const videoUrl = event.body;
 
-										if (youtubeLinkPattern.test(videoUrl)) {
-											youtube.getVideo(videoUrl)
-												.then(video => {
-													const stream = ytdl(videoUrl, { quality: 'highest' });
+    // Check if videoUrl matches any of the patterns
+    const isMatch = youtubeLinkPatterns.some(pattern => pattern.test(videoUrl));
 
+    if (isMatch) {
+        youtube.getVideo(videoUrl)
+            .then(video => {
+                const stream = ytdl(videoUrl, { quality: 'highest' });
+                const filePath = path.join(__dirname, `./cache/${video.title}.mp4`);
+                const file = fs.createWriteStream(filePath);
 
-													const filePath = path.join(__dirname, `./cache/${video.title}.mp4`);
-													const file = fs.createWriteStream(filePath);
+                stream.pipe(file);
 
-
-													stream.pipe(file);
-
-													file.on('finish', () => {
-														file.close(() => {
-															api.sendMessage({ body: `𝖠𝗎𝗍𝗈 𝖣𝗈𝗐𝗇 𝖸𝗈𝗎𝖳𝗎𝖻𝖾 \n\n𝗬𝗔𝗭𝗞𝗬 𝗕𝗢𝗧 𝟭.𝟬.𝟬𝘃`, attachment: fs.createReadStream(filePath) }, event.threadID, () => fs.unlinkSync(filePath));
-														});
-													});
-												})
-												.catch(error => {
-													console.error('Error downloading video:', error);
-												});
-										}
-									}
+                file.on('finish', () => {
+                    file.close(() => {
+                        api.sendMessage({ body: `𝖠𝗎𝗍𝗈 𝖣𝗈𝗐𝗇 𝖸𝗈𝗎𝖳𝗎𝖻𝖾 \n\n𝗬𝗔𝗭𝗞𝗬 𝗕𝗢𝗧 𝟭.𝟬.𝟬𝘃`, attachment: fs.createReadStream(filePath) }, event.threadID, () => fs.unlinkSync(filePath));
+                    });
+                });
+            })
+            .catch(error => {
+                console.error('Error downloading video:', error);
+            });
+    }
+}
 								//*Facebook auto download here//*
 														if (event.body !== null) {
 															const getFBInfo = require("@xaviabot/fb-downloader");
@@ -926,7 +929,7 @@ function createConfig() {
 			userAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64",
 			online: true,
 			autoMarkDelivery: false,
-			autoMarkRead: true
+			autoMarkRead: false
 		}
 	}];
 	const dataFolder = './data';
