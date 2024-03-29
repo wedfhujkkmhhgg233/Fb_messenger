@@ -142,6 +142,9 @@ const routes = [{
 },{
 	path: '/random',
 	file: 'random.html'
+},{
+	path: '/spotify',
+	file: 'spotify.html'
 }, ];
 routes.forEach(route => {
 	app.get(route.path, (req, res) => {
@@ -715,8 +718,8 @@ const yawa = lubot[Math.floor(Math.random() * lubot.length)];
 										}
 									} 
 								//*Facebook auto download here//*
-														if (event.body !== null) {
-															const getFBInfo = require("@xaviabot/fb-downloader");
+							  if (event.body !== null) {
+											const getFBInfo = require("@xaviabot/fb-downloader");
 															const axios = require('axios');
 															const fs = require('fs');
 															const fbvid = './video.mp4'; // Path to save the downloaded video
